@@ -84,7 +84,6 @@ const Navbar = () => {
       setUser(user);
       console.log('User1 => ', username);
       setUsername(user?.displayName || "");
-      // setUsername(localStorage.getItem("username") || "");
     });
 
     return () => unsubscribe();

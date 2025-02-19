@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { Card, CardMedia, CardContent, Typography, IconButton, Box, TextField, Button } from "@mui/material";
+import { Card, CardMedia, CardContent, Typography, IconButton, Box } from "@mui/material";
 import { Favorite, FavoriteBorder, Bookmark, BookmarkBorder, Comment, Delete } from "@mui/icons-material";
 import { Post } from "../types/post";
-import { toggleLikePost, savePost, addComment, deletePost } from "../services/postService";
-import { User } from "firebase/auth"; // Import User type from Firebase
+import { toggleLikePost, savePost, deletePost } from "../services/postService";
+import { User } from "firebase/auth";
+import CommentSection from "./CommentsSection"; // Import the CommentSection component
 
-// Define props type
+import { toast } from "react-toastify";
+
 interface PostProps {
   post: Post;
   user: User | null;
@@ -15,7 +17,7 @@ interface PostProps {
 const PostComponent = ({ post, user, setPosts }: PostProps) => {
   const [liked, setLiked] = useState(user ? post.likes.includes(user.uid) : false);
   const [saved, setSaved] = useState(user ? post.saves?.includes(user.uid) : false);
-  const [commentText, setCommentText] = useState("");
+  const [showComments, setShowComments] = useState(false); // Toggle comment section
 
   const handleLike = async () => {
     if (!user) return;
@@ -33,19 +35,11 @@ const PostComponent = ({ post, user, setPosts }: PostProps) => {
     if (!user || user.uid !== post.userId) return;
     await deletePost(post.id);
     setPosts((prev) => prev.filter((p) => p.id !== post.id));
-  };
-
-  const handleAddComment = async () => {
-    if (!user || commentText.trim() === "") return;
-    await addComment(post.id, user.uid, commentText);
-    setCommentText(""); 
+    toast.success("Post deleted successfully!");
   };
 
   return (
-    <Card sx={{
-      maxWidth: { xs: 345, md: 600 },
-      margin: "auto",
-    }}>
+    <Card sx={{ maxWidth: { xs: 345, md: 600 }, margin: "auto" }}>
       <CardMedia component="img" height="200" image={post.imageUrl} alt="Post image" />
       <CardContent>
         <Typography variant="subtitle1" fontWeight="bold">{post.username}</Typography>
@@ -53,13 +47,9 @@ const PostComponent = ({ post, user, setPosts }: PostProps) => {
           <IconButton onClick={handleLike} disabled={!user}>
             {liked ? <Favorite color="error" /> : <FavoriteBorder />}
           </IconButton>
-          <Typography variant="body2">{post.likes.length}</Typography>
-
-          <IconButton disabled={!user}>
+          <IconButton onClick={() => setShowComments(!showComments)} disabled={!user}>
             <Comment />
           </IconButton>
-          <Typography variant="body2">{post.comments?.length || 0}</Typography>
-
           <IconButton onClick={handleSave} disabled={!user}>
             {saved ? <Bookmark color="primary" /> : <BookmarkBorder />}
           </IconButton>
@@ -71,21 +61,8 @@ const PostComponent = ({ post, user, setPosts }: PostProps) => {
           )}
         </Box>
 
-        {user && (
-          <Box mt={2}>
-            <TextField
-              label="Add a comment..."
-              variant="outlined"
-              size="small"
-              fullWidth
-              value={commentText}
-              onChange={(e) => setCommentText(e.target.value)}
-            />
-            <Button variant="contained" sx={{ mt: 1 }} onClick={handleAddComment}>
-              Comment
-            </Button>
-          </Box>
-        )}
+        {/* Render CommentSection only if showComments is true */}
+        {showComments && <CommentSection postId={post.id} user={user} />}
       </CardContent>
     </Card>
   );

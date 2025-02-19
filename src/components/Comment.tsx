@@ -12,11 +12,11 @@ interface CommentProps {
 }
 
 const Comment = ({ comment, postId, user }: CommentProps) => {
-  const [replies, setReplies] = useState<CommentType[]>([]); // ✅ Fix useState type
+  const [replies, setReplies] = useState<CommentType[]>([]); // Fix useState type
 
   const fetchReplies = async () => {
     const fetchedReplies = await getComments(postId, comment.id);
-    setReplies(fetchedReplies); // ✅ Fix type error
+    setReplies(fetchedReplies); // Fix type error
   };
 
   const handleDelete = async () => {

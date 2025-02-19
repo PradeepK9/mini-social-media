@@ -5,30 +5,11 @@ import { Home as HomeIcon, HowToReg as HowToRegIcon, Comment as CommentIcon } fr
 const Home = () => {
   return (
     <Box sx={{ minHeight: "100vh", bgcolor: "background.default", color: "text.primary" }}>
-      {/* ✅ Navbar */}
-      {/* <AppBar position="static">
-        <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Typography variant="h6">🔥 Mini Social App</Typography>
-          <Box>
-            <Button component={Link} to="/login" variant="contained" color="primary">
-              Login
-            </Button>
-            <Button
-              component={Link}
-              to="/register"
-              variant="outlined"
-              sx={{ ml: 2, borderColor: "white", color: "white" }}
-            >
-              Sign Up
-            </Button>
-          </Box>
-        </Toolbar>
-      </AppBar> */}
 
-      {/* ✅ Hero Section */}
+      {/* Hero Section */}
       <Box sx={{ textAlign: "center", py: 10, px: { xs: 2, sm: 4, md: 8 } }}>
         <Typography variant="h3" fontWeight="bold">
-          Welcome to Mini Social App 🚀
+          Welcome to Mini Social App
         </Typography>
         <Typography variant="h6" sx={{ mt: 2, color: "gray" }}>
           Connect, share, and explore with friends and developers worldwide.
@@ -38,7 +19,7 @@ const Home = () => {
         </Button>
       </Box>
 
-      {/* ✅ Features Section */}
+      {/* Features Section */}
       <Box sx={{ py: 10, px: { xs: 2, sm: 4, md: 8 } }}>
         <Typography variant="h4" fontWeight="bold" textAlign="center" gutterBottom>
           Features of Mini Social App
@@ -119,7 +100,7 @@ const Home = () => {
         </Grid>
       </Box>
 
-      {/* ✅ How It Works Section */}
+      {/* How It Works Section */}
       <Box sx={{ bgcolor: "background.paper", py: 8, px: { xs: 2, sm: 4, md: 8 } }}>
         <Typography variant="h4" fontWeight="bold" textAlign="center" gutterBottom>
           How It Works
@@ -161,7 +142,7 @@ const Home = () => {
         </Grid>
       </Box>
 
-      {/* ✅ Testimonials Section */}
+      {/* Testimonials Section */}
       <Box sx={{ py: 8, px: { xs: 2, sm: 4, md: 8 }, bgcolor: "background.default" }}>
         <Typography variant="h4" fontWeight="bold" textAlign="center" gutterBottom>
           What Our Users Are Saying
@@ -188,7 +169,7 @@ const Home = () => {
         </Grid>
       </Box>
 
-      {/* ✅ CTA Section */}
+      {/* CTA Section */}
       <Box sx={{ textAlign: "center", py: 10, px: { xs: 2, sm: 4, md: 8 }, bgcolor: "primary.main", color: "white" }}>
         <Typography variant="h4" fontWeight="bold">
           Ready to Join the Community?
