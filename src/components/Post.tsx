@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Card, CardMedia, CardContent, Typography, IconButton, Box, TextField, Button } from "@mui/material";
 import { Favorite, FavoriteBorder, Bookmark, BookmarkBorder, Comment, Delete } from "@mui/icons-material";
-import { Post } from "../types/post"; // Ensure you have a Post type defined
+import { Post } from "../types/post";
 import { toggleLikePost, savePost, addComment, deletePost } from "../services/postService";
 import { User } from "firebase/auth"; // Import User type from Firebase
 
@@ -42,7 +42,10 @@ const PostComponent = ({ post, user, setPosts }: PostProps) => {
   };
 
   return (
-    <Card sx={{ maxWidth: 345, margin: "auto" }}>
+    <Card sx={{
+      maxWidth: { xs: 345, md: 600 },
+      margin: "auto",
+    }}>
       <CardMedia component="img" height="200" image={post.imageUrl} alt="Post image" />
       <CardContent>
         <Typography variant="subtitle1" fontWeight="bold">{post.username}</Typography>
