@@ -1,28 +1,3 @@
-firebase
-=======
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyBNlmB4O51je3zY8CYnAT60qK4gmfvcEYA",
-  authDomain: "mini-social-media-68c77.firebaseapp.com",
-  projectId: "mini-social-media-68c77",
-  storageBucket: "mini-social-media-68c77.firebasestorage.app",
-  messagingSenderId: "586978033565",
-  appId: "1:586978033565:web:7df693def13e34e4f8b974",
-  measurementId: "G-J2SVXLRNR0"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-
-
 Users
 -----
 pkjais1@yopmail.com
