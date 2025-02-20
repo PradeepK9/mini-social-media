@@ -25,19 +25,19 @@ const CommentSection = ({ postId, parentId = null, user }: CommentSectionProps) 
     };
     fetchComments();
   }, [postId, parentId]);
-  
+
   const handleAddComment = async (replyTo?: string) => {
     if (!user) return;
     const text = replyTo ? replyTexts[replyTo] : mainCommentText;
     if (!text.trim()) return;
-  
+
     // Add the new comment to Firestore
     await addComment(postId, text, replyTo || parentId);
-  
+
     // Refetch the latest comments from Firestore
     const updatedComments = await getComments(postId, parentId);
     setComments(updatedComments); // Update the state with the latest data
-  
+
     // Reset input fields
     if (replyTo) {
       setReplyTexts((prev) => ({ ...prev, [replyTo]: "" }));
@@ -46,7 +46,7 @@ const CommentSection = ({ postId, parentId = null, user }: CommentSectionProps) 
       setMainCommentText("");
     }
   };
-  
+
 
 
   /** Handle like toggle */
@@ -59,11 +59,11 @@ const CommentSection = ({ postId, parentId = null, user }: CommentSectionProps) 
       prev.map((comment) =>
         comment.id === commentId
           ? {
-              ...comment,
-              likes: comment.likes.includes(user.uid)
-                ? comment.likes.filter((id) => id !== user.uid)
-                : [...comment.likes, user.uid],
-            }
+            ...comment,
+            likes: comment.likes.includes(user.uid)
+              ? comment.likes.filter((id) => id !== user.uid)
+              : [...comment.likes, user.uid],
+          }
           : comment
       )
     );
@@ -87,9 +87,14 @@ const CommentSection = ({ postId, parentId = null, user }: CommentSectionProps) 
             </IconButton>
             <Typography variant="caption">{comment.likes.length}</Typography>
 
-            <IconButton onClick={() => setReplyingTo(replyingTo === comment.id ? null : comment.id)}>
+            <IconButton
+              onClick={() => {
+                setReplyingTo((prev) => (prev === comment.id ? null : comment.id));
+              }}
+            >
               <Reply fontSize="small" />
             </IconButton>
+
 
             {/* Collapse/Expand Button */}
             {comment.parentId === null && (

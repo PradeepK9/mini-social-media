@@ -11,6 +11,7 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import './App.css'
+import Footer from "./components/Footer";
 
 const App = () => {
   return (
@@ -29,6 +30,7 @@ const App = () => {
           <Route path="/saved-posts" element={<SavedPosts />} />
         </Route>
       </Routes>
+      <Footer />
     </Router>
   );
 };
