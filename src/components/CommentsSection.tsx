@@ -60,8 +60,8 @@ const CommentSection = ({ postId, parentId = null, user }: CommentSectionProps) 
         comment.id === commentId
           ? {
             ...comment,
-            likes: comment.likes.includes(user.uid)
-              ? comment.likes.filter((id) => id !== user.uid)
+            likes: comment?.likes?.includes(user.uid)
+              ? comment?.likes?.filter((id) => id !== user.uid)
               : [...comment.likes, user.uid],
           }
           : comment
@@ -83,9 +83,9 @@ const CommentSection = ({ postId, parentId = null, user }: CommentSectionProps) 
           </Typography>
           <Box display="flex" alignItems="center" gap={1}>
             <IconButton onClick={() => handleLike(comment.id)}>
-              {comment.likes.includes(user?.uid || "") ? <ThumbUp /> : <ThumbUpOutlined />}
+              {comment?.likes?.includes(user?.uid || "") ? <ThumbUp /> : <ThumbUpOutlined />}
             </IconButton>
-            <Typography variant="caption">{comment.likes.length}</Typography>
+            <Typography variant="caption">{comment?.likes?.length}</Typography>
 
             <IconButton
               onClick={() => {

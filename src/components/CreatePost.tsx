@@ -12,7 +12,7 @@ const CreatePost: React.FC<CreatePostProps> = ({ onPostAdded }) => {
     const [loading, setLoading] = useState(false);
 
     const handlePostSubmit = async () => {
-        if (!imageUrl.trim()) return alert("Image URL is required");
+        if (!imageUrl.trim()) return toast.error("Image URL is required");
 
         setLoading(true);
         await addPost(imageUrl);

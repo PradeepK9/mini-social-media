@@ -1,100 +1,44 @@
-// import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
-// import { Link, useNavigate } from "react-router-dom";
-// import { auth } from "../services/firebase";
-// import { useState, useEffect } from "react";
-
-// const Navbar = () => {
-//   const [user, setUser] = useState<unknown>(null);
-//   const navigate = useNavigate();
-
-//   useEffect(() => {
-//     const unsubscribe = auth.onAuthStateChanged((user) => {
-//       setUser(user);
-//     });
-
-//     return () => unsubscribe(); // Cleanup listener on unmount
-//   }, []);
-
-//   const handleLogout = async () => {
-//     await auth.signOut();
-//     navigate("/login");
-//   };
-
-//   return (
-//     <AppBar position="sticky" color="primary">
-//       <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-//         {/* Logo / Brand Name */}
-//         <Typography 
-//           variant="h6" 
-//           component={Link} 
-//           to="/" 
-//           sx={{ textDecoration: "none", color: "white", fontWeight: "bold" }}
-//         >
-//           My Social App
-//         </Typography>
-
-//         {/* Navigation Links */}
-//         <Box sx={{ display: "flex", gap: 2 }}>
-//           {user ? (
-//             <>
-//               <Button color="inherit" component={Link} to="/my-posts">
-//                 My Posts
-//               </Button>
-//               <Button color="inherit" component={Link} to="/saved-posts">
-//                 Saved Posts
-//               </Button>
-//               <Button color="inherit" onClick={handleLogout}>
-//                 Logout
-//               </Button>
-//             </>
-//           ) : (
-//             <>
-//               <Button color="inherit" component={Link} to="/login">
-//                 Login
-//               </Button>
-//               <Button color="inherit" component={Link} to="/register">
-//                 Register
-//               </Button>
-//             </>
-//           )}
-//         </Box>
-//       </Toolbar>
-//     </AppBar>
-//   );
-// };
-
-// export default Navbar;
-
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../services/firebase";
-import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { AppBar, Toolbar, Button, Typography } from "@mui/material";
+import {
+  AppBar,
+  Toolbar,
+  Button,
+  Typography,
+  IconButton,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  Box,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 
 const Navbar = () => {
   const [user, setUser] = useState(auth.currentUser);
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState<string>("");
+  const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
 
-  console.log("Current user => ", auth.currentUser);
-
   useEffect(() => {
+    // Listen for auth state changes
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setUser(user);
-      console.log('User1 => ', username);
-      setUsername(user?.displayName || "");
+      setUsername(user?.displayName || ""); // Update username dynamically
     });
 
     return () => unsubscribe();
-  }, [username]);
+  }, []); // Runs only once when the component mounts
 
   const handleLogout = async () => {
     try {
       await auth.signOut();
-      localStorage.removeItem("username");
       setUser(null);
-      setUsername("");
+      setUsername(""); // Reset username on logout
+      localStorage.removeItem("username");
       toast.success("Logged out successfully!");
       navigate("/login");
     } catch (error) {
@@ -102,35 +46,87 @@ const Navbar = () => {
       console.error(error);
     }
   };
-  console.log("user3 => ", user);
-  console.log("username3 => ", username);
+
+  const toggleDrawer = (open: boolean) => () => {
+    setMobileOpen(open);
+  };
+
+  const navLinks = user
+    ? [
+      { text: "Home", path: "/" },
+      { text: "Feeds", path: "/feeds" },
+      { text: "My Posts", path: "/my-posts" },
+      { text: "Saved Posts", path: "/saved-posts" },
+    ]
+    : [
+      { text: "Home", path: "/" },
+      { text: "Feeds", path: "/feeds" },
+      { text: "Login", path: "/login" },
+      { text: "Register", path: "/register" },
+    ];
 
   return (
     <AppBar position="static">
       <Toolbar>
+        {/* Mobile Menu Button */}
+        <IconButton
+          edge="start"
+          color="inherit"
+          aria-label="menu"
+          sx={{ display: { xs: "block", md: "none" } }}
+          onClick={toggleDrawer(true)}
+        >
+          <MenuIcon />
+        </IconButton>
+
+        {/* Logo */}
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>Home</Link>
+          <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+            Mini Social App
+          </Link>
         </Typography>
 
-        {user ? (
-          <>
-            <Typography variant="body1" sx={{ marginRight: 2 }}>
-              {username ? `Hello, ${username}` : "Hello, User"}
-            </Typography>
-            <Button color="inherit" component={Link} to="/my-posts">My Posts</Button>
-            <Button color="inherit" component={Link} to="/saved-posts">Saved Posts</Button>
-            <Button color="inherit" onClick={handleLogout}>Logout</Button>
-          </>
-        ) : (
-          <>
-            <Button color="inherit" component={Link} to="/login">Login</Button>
-            <Button color="inherit" component={Link} to="/register">Register</Button>
-          </>
+        {/* Show username when user is logged in */}
+        {user && (
+          <Typography variant="body1" sx={{ marginRight: 2 }}>
+            {username ? `Hello, ${username}` : "Hello, User"}
+          </Typography>
         )}
+
+        {/* Desktop Links */}
+        <Box sx={{ display: { xs: "none", md: "block" } }}>
+          {navLinks.map((link) => (
+            <Button key={link.text} color="inherit" component={Link} to={link.path}>
+              {link.text}
+            </Button>
+          ))}
+          {user && (
+            <Button color="inherit" onClick={handleLogout}>
+              Logout
+            </Button>
+          )}
+        </Box>
       </Toolbar>
+
+      {/* Mobile Drawer */}
+      <Drawer anchor="left" open={mobileOpen} onClose={toggleDrawer(false)}>
+        <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
+          <List>
+            {navLinks.map((link) => (
+              <ListItem button key={link.text} component={Link} to={link.path}>
+                <ListItemText primary={link.text} />
+              </ListItem>
+            ))}
+            {user && (
+              <ListItem button onClick={handleLogout}>
+                <ListItemText primary="Logout" />
+              </ListItem>
+            )}
+          </List>
+        </Box>
+      </Drawer>
     </AppBar>
   );
 };
 
 export default Navbar;
-

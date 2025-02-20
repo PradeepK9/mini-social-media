@@ -1,11 +1,11 @@
-import { Box, Typography, Button, Grid, Card, CardContent, CardMedia, Avatar } from "@mui/material";
+import { Box, Typography, Button, Grid, Card, CardContent, CardMedia, Avatar, Container } from "@mui/material";
 import { Link } from "react-router-dom";
-import { Home as HomeIcon, HowToReg as HowToRegIcon, Comment as CommentIcon } from '@mui/icons-material';
+import { Home as HomeIcon, HowToReg as HowToRegIcon, Comment as CommentIcon } from "@mui/icons-material";
 
 const Home = () => {
+
   return (
     <Box sx={{ minHeight: "100vh", bgcolor: "background.default", color: "text.primary" }}>
-
       {/* Hero Section */}
       <Box
         sx={{
@@ -33,16 +33,16 @@ const Home = () => {
       </Box>
 
       {/* Features Section */}
-      <Box sx={{ py: 12, px: { xs: 2, sm: 4, md: 8 } }}>
-        <Typography variant="h4" fontWeight="bold" textAlign="center" gutterBottom>
+      <Container sx={{ py: 12 }}>
+        <Typography variant="h4" fontWeight="bold" textAlign="center" gutterBottom sx={{ mb: "2rem" }}>
           Features of Mini Social App
         </Typography>
         <Grid container spacing={4} justifyContent="center">
           {[
-            { title: "User Profiles", imgUrl: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8VXNlciUyMFByb2ZpbGVzfGVufDB8fDB8fHww", desc: "Create a profile, add a bio, and connect with others." },
-            { title: "Interactive Posts", imgUrl: "https://images.unsplash.com/photo-1516381093400-a0fecb601de2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8SW50ZXJhY3RpdmUlMjBQb3N0c3xlbnwwfHwwfHx8MA%3D%3D", desc: "Like, comment, and share posts easily." },
-            { title: "Save Posts", imgUrl: "https://plus.unsplash.com/premium_vector-1733526079634-9bf13562e5f2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fHNhdmUlMjBwb3N0c3xlbnwwfHwwfHx8MA%3D%3D", desc: "Save posts to revisit later." },
-            { title: "Notifications", imgUrl: "https://plus.unsplash.com/premium_vector-1716988352248-db21bc245a2f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Tm90aWZpY2F0aW9uc3xlbnwwfHwwfHx8MA%3D%3D", desc: "Stay updated with latest interactions." },
+            { title: "User Profiles", imgUrl: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3", desc: "Create a profile, add a bio, and connect with others." },
+            { title: "Interactive Posts", imgUrl: "https://images.unsplash.com/photo-1516381093400-a0fecb601de2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3", desc: "Like, comment, and share posts easily." },
+            { title: "Save Posts", imgUrl: "https://plus.unsplash.com/premium_vector-1733526079634-9bf13562e5f2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3", desc: "Save posts to revisit later." },
+            { title: "Notifications", imgUrl: "https://plus.unsplash.com/premium_vector-1716988352248-db21bc245a2f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3", desc: "Stay updated with latest interactions." },
           ].map((feature, index) => (
             <Grid item xs={12} sm={6} md={3} key={index}>
               <Card
@@ -52,12 +52,7 @@ const Home = () => {
                   "&:hover": { transform: "scale(1.05)" },
                 }}
               >
-                <CardMedia
-                  component="img"
-                  height="140"
-                  image={feature.imgUrl}
-                  alt={feature.title}
-                />
+                <CardMedia component="img" height="140" image={feature.imgUrl} alt={feature.title} />
                 <CardContent>
                   <Typography variant="h6" fontWeight="bold">
                     {feature.title}
@@ -70,11 +65,11 @@ const Home = () => {
             </Grid>
           ))}
         </Grid>
-      </Box>
+      </Container>
 
-      {/* How It Works - Step-by-Step Flow */}
-      <Box sx={{ bgcolor: "background.paper", py: 8, px: { xs: 2, sm: 4, md: 8 } }}>
-        <Typography variant="h4" fontWeight="bold" textAlign="center" gutterBottom>
+      {/* How It Works */}
+      <Box sx={{ bgcolor: "background.paper", py: 8 }}>
+        <Typography variant="h4" fontWeight="bold" textAlign="center" gutterBottom sx={{ mb: "2rem" }}>
           How It Works
         </Typography>
         <Grid container spacing={4} justifyContent="center">
@@ -113,8 +108,12 @@ const Home = () => {
                 >
                   {step.icon}
                 </Box>
-                <Typography variant="h6" fontWeight="bold">{step.title}</Typography>
-                <Typography variant="body2" color="text.secondary">{step.desc}</Typography>
+                <Typography variant="h6" fontWeight="bold">
+                  {step.title}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {step.desc}
+                </Typography>
               </Box>
             </Grid>
           ))}
@@ -122,13 +121,13 @@ const Home = () => {
       </Box>
 
       {/* Testimonials */}
-      <Box sx={{ py: 8, px: { xs: 2, sm: 4, md: 8 }, bgcolor: "background.default" }}>
-        <Typography variant="h4" fontWeight="bold" textAlign="center" gutterBottom>
+      <Container sx={{ py: 8 }}>
+        <Typography variant="h4" fontWeight="bold" textAlign="center" gutterBottom sx={{ mb: "2rem" }}>
           What Our Users Are Saying
         </Typography>
         <Grid container spacing={4} justifyContent="center">
           {[
-            { name: "Pradeep Jaiswal", role: "Sr. Software Engineer", text: "I loved this plateform" },
+            { name: "Pradeep Jaiswal", role: "Sr. Software Engineer", text: "I loved this platform!" },
             { name: "Elon Musk", role: "CEO of Tesla Motors", text: "This app has been a game-changer!" },
             { name: "Mark Zuckerberg", role: "CEO of Facebook", text: "Love the interface and features!" },
           ].map((user, index) => (
@@ -148,40 +147,17 @@ const Home = () => {
                 <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
                   "{user.text}"
                 </Typography>
-                <Typography variant="h6" fontWeight="bold">{user.name}</Typography>
-                <Typography variant="body2" color="text.secondary">{user.role}</Typography>
+                <Typography variant="h6" fontWeight="bold">
+                  {user.name}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {user.role}
+                </Typography>
               </Box>
             </Grid>
           ))}
         </Grid>
-      </Box>
-
-      {/* CTA Section */}
-      <Box
-        sx={{
-          textAlign: "center",
-          py: 10,
-          px: { xs: 2, sm: 4, md: 8 },
-          bgcolor: "primary.main",
-          color: "white",
-        }}
-      >
-        <Typography variant="h4" fontWeight="bold">
-          Ready to Join the Community?
-        </Typography>
-        <Typography variant="h6" sx={{ mt: 2 }}>
-          Sign up now and start exploring amazing posts!
-        </Typography>
-        <Button
-          component={Link}
-          to="/register"
-          variant="contained"
-          color="secondary"
-          sx={{ mt: 4, px: 4, py: 1.5, fontSize: "1rem", fontWeight: "bold" }}
-        >
-          Sign Up Now
-        </Button>
-      </Box>
+      </Container>
     </Box>
   );
 };

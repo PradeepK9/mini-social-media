@@ -78,7 +78,7 @@ const Register = () => {
 
   return (
     <Container component="main" maxWidth="xs">
-      <Paper elevation={3} sx={{ padding: 4, textAlign: "center", mt: 8 }}>
+      <Paper elevation={3} sx={{ padding: 4, textAlign: "center", mt: 8, mb: 8 }}>
         <Typography variant="h4" gutterBottom>
           Register
         </Typography>

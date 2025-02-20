@@ -13,7 +13,7 @@ const CommentItem = ({ comment, postId, setComments }: CommentItemProps) => {
   const [replies, setReplies] = useState<CommentType[]>([]);
   const [showReplies, setShowReplies] = useState(false);
   const [showReplyForm, setShowReplyForm] = useState(false);
-  const [likes, setLikes] = useState(comment.likes.length);
+  const [likes, setLikes] = useState(comment?.likes?.length);
 
   const handleToggleReplies = async () => {
     if (!showReplies) {
@@ -32,7 +32,7 @@ const CommentItem = ({ comment, postId, setComments }: CommentItemProps) => {
     const user = localStorage.getItem("userId"); // Change this to your auth logic
     if (user) {
       await toggleLikeComment(comment.id, user);
-      setLikes((prevLikes) => (comment.likes.includes(user) ? prevLikes - 1 : prevLikes + 1));
+      setLikes((prevLikes) => (comment?.likes?.includes(user) ? prevLikes - 1 : prevLikes + 1));
     }
   };
 

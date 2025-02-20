@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { CircularProgress, Grid, Typography, Box } from "@mui/material";
+import { CircularProgress, Grid, Typography, Box, Paper, Container } from "@mui/material";
 import PostComponent from "../components/Post";
 import { getSavedPosts } from "../services/postService";
 import { Post } from "../types/post";
@@ -27,25 +27,41 @@ const SavedPosts = () => {
     );
 
   return (
-    <Box sx={{ maxWidth: "900px", margin: "auto", mt: 4 }}>
-      <Typography variant="h4" fontWeight="bold" textAlign="center" gutterBottom>
-        Saved Posts
-      </Typography>
-
-      {posts.length > 0 ? (
-        <Grid container spacing={2}>
-          {posts.map((post) => (
-            <Grid item xs={12} sm={6} md={4} key={post.id}>
-              <PostComponent post={post} user={auth.currentUser} setPosts={setPosts} />
-            </Grid>
-          ))}
-        </Grid>
-      ) : (
-        <Typography variant="body1" color="text.secondary" textAlign="center">
-          No saved posts found.
+    <Container maxWidth="md">
+      <Box sx={{ py: 4 }}>
+        <Typography variant="h4" fontWeight="bold" textAlign="center" gutterBottom>
+          Saved Posts
         </Typography>
-      )}
-    </Box>
+
+        {posts.length > 0 ? (
+          <Grid container spacing={3} justifyContent="center" sx={{ pb: 6 }}>
+            {posts.map((post) => (
+              <Grid item xs={12} key={post.id}>
+                <Paper
+                  elevation={3}
+                  sx={{
+                    p: 2,
+                    backgroundColor: "#f9f9f9",
+                    borderRadius: 2,
+                  }}
+                >
+                  <PostComponent post={post} user={auth.currentUser} setPosts={setPosts} />
+                </Paper>
+              </Grid>
+            ))}
+          </Grid>
+        ) : (
+          <Typography
+            variant="body1"
+            color="text.secondary"
+            textAlign="center"
+            sx={{ mt: 3, pb: 6 }}
+          >
+            No saved posts found.
+          </Typography>
+        )}
+      </Box>
+    </Container>
   );
 };
 
