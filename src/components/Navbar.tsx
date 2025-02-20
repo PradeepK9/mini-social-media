@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, forwardRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../services/firebase";
 import { toast } from "react-toastify";
@@ -12,10 +12,16 @@ import {
   Drawer,
   List,
   ListItem,
+  ListItemButton,
   ListItemText,
   Box,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+
+// Fix for MUI ListItem & react-router-dom Link compatibility
+const LinkBehavior = forwardRef<HTMLAnchorElement, { to: string }>((props, ref) => (
+  <Link ref={ref} {...props} />
+));
 
 const Navbar = () => {
   const [user, setUser] = useState(auth.currentUser);
@@ -24,10 +30,9 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Listen for auth state changes
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setUser(user);
-      setUsername(user?.displayName || ""); // Update username dynamically
+      setUsername(user?.displayName || "");
     });
 
     return () => unsubscribe();
@@ -53,17 +58,17 @@ const Navbar = () => {
 
   const navLinks = user
     ? [
-      { text: "Home", path: "/" },
-      { text: "Feeds", path: "/feeds" },
-      { text: "My Posts", path: "/my-posts" },
-      { text: "Saved Posts", path: "/saved-posts" },
-    ]
+        { text: "Home", path: "/" },
+        { text: "Feeds", path: "/feeds" },
+        { text: "My Posts", path: "/my-posts" },
+        { text: "Saved Posts", path: "/saved-posts" },
+      ]
     : [
-      { text: "Home", path: "/" },
-      { text: "Feeds", path: "/feeds" },
-      { text: "Login", path: "/login" },
-      { text: "Register", path: "/register" },
-    ];
+        { text: "Home", path: "/" },
+        { text: "Feeds", path: "/feeds" },
+        { text: "Login", path: "/login" },
+        { text: "Register", path: "/register" },
+      ];
 
   return (
     <AppBar position="static">
@@ -80,7 +85,7 @@ const Navbar = () => {
         </IconButton>
 
         {/* Logo */}
-        {(user && window.innerWidth >= 600) || (!user && window.innerWidth <= 600) ? (
+        {user || (!user && window.innerWidth > 600) ? (
           <Typography
             variant="h6"
             sx={{
@@ -121,13 +126,17 @@ const Navbar = () => {
         <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
           <List>
             {navLinks.map((link) => (
-              <ListItem button key={link.text} component={Link} to={link.path}>
-                <ListItemText primary={link.text} />
+              <ListItem key={link.text} disablePadding>
+                <ListItemButton component={LinkBehavior} to={link.path}>
+                  <ListItemText primary={link.text} />
+                </ListItemButton>
               </ListItem>
             ))}
             {user && (
-              <ListItem button onClick={handleLogout}>
-                <ListItemText primary="Logout" />
+              <ListItem disablePadding>
+                <ListItemButton onClick={handleLogout}>
+                  <ListItemText primary="Logout" />
+                </ListItemButton>
               </ListItem>
             )}
           </List>
