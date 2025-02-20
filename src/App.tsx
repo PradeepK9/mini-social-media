@@ -10,8 +10,8 @@ import Navbar from "./components/Navbar";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import './App.css'
 import Footer from "./components/Footer";
+import NotFound from "./components/NotFound";
 
 const App = () => {
   return (
@@ -29,6 +29,7 @@ const App = () => {
           <Route path="/my-posts" element={<MyPosts />} />
           <Route path="/saved-posts" element={<SavedPosts />} />
         </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
     </Router>

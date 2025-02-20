@@ -16,7 +16,7 @@ import {
 } from "firebase/firestore";
 import { CommentType } from "../types/comment"; // Import CommentType for proper typing
 
-/** 🔹 Fetch all comments for a post (root-level comments only) */
+/** Fetch all comments for a post (root-level comments only) */
 export const getComments = async (postId: string, parentId: string | null = null): Promise<CommentType[]> => {
   let q;
 
@@ -43,7 +43,7 @@ export const getComments = async (postId: string, parentId: string | null = null
   })) as CommentType[];
 };
 
-/** 🔹 Add a new comment (or reply to a comment) */
+/** Add a new comment (or reply to a comment) */
 export const addComment = async (postId: string, text: string, parentId: string | null = null) => {
   const user = auth.currentUser;
   if (!user) throw new Error("User not authenticated");
@@ -59,7 +59,7 @@ export const addComment = async (postId: string, text: string, parentId: string 
   });
 };
 
-/** 🔹 Delete a comment (Only if the user is the owner) */
+/** Delete a comment (Only if the user is the owner) */
 export const deleteComment = async (commentId: string) => {
   const user = auth.currentUser;
   if (!user) throw new Error("User not authenticated");
@@ -77,7 +77,7 @@ export const deleteComment = async (commentId: string) => {
   await deleteDoc(commentRef);
 };
 
-/** 🔹 Like or Unlike a comment */
+/** Like or Unlike a comment */
 export const toggleLikeComment = async (commentId: string, userId: string) => {
   const commentRef = doc(db, "comments", commentId);
   const commentSnapshot = await getDoc(commentRef); // Use getDoc

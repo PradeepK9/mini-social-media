@@ -31,13 +31,13 @@ const Navbar = () => {
     });
 
     return () => unsubscribe();
-  }, []); // Runs only once when the component mounts
+  }, []);
 
   const handleLogout = async () => {
     try {
       await auth.signOut();
       setUser(null);
-      setUsername(""); // Reset username on logout
+      setUsername("");
       localStorage.removeItem("username");
       toast.success("Logged out successfully!");
       navigate("/login");
@@ -80,11 +80,19 @@ const Navbar = () => {
         </IconButton>
 
         {/* Logo */}
-        <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
-            Mini Social App
-          </Link>
-        </Typography>
+        {(user && window.innerWidth >= 600) || (!user && window.innerWidth <= 600) ? (
+          <Typography
+            variant="h6"
+            sx={{
+              flexGrow: 1,
+              display: { xs: user ? "block" : "none", md: "block" },
+            }}
+          >
+            <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+              Mini Social App
+            </Link>
+          </Typography>
+        ) : null}
 
         {/* Show username when user is logged in */}
         {user && (
